@@ -1,4 +1,5 @@
 from __future__ import annotations
+from os import getenv
 
 __all__ = [
     "Params",
@@ -22,7 +23,7 @@ T = TypeVar("T")
 
 class Params(BaseModel, AbstractParams):
     page: int = Query(1, ge=1, description="Page number")
-    size: int = Query(50, ge=1, le=100, description="Page size")
+    size: int = Query(50, ge=1, le=getenv('FASTAPI_MAX_PAGE_SIZE', 100), description="Page size")
 
     def to_raw_params(self) -> RawParams:
         return RawParams(
